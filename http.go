@@ -41,6 +41,7 @@ func HttpGetJson(url string) (*simplejson.Json, error) {
 	}
 
 	if res.StatusCode != 200 {
+
 		fmt.Println("Request %d %s error ", res.StatusCode, url)
 		return simplejson.New(), e
 	}
