@@ -14,3 +14,15 @@ func DirPath() string {
 	ret := path[:index]
 	return ret
 }
+
+func UniqueInt(is []int) []int {
+	i := []int{}
+	unq := map[int]bool{}
+	for _, v := range is {
+		if _, ok := unq[v]; !ok {
+			unq[v] = true
+			i = append(i, v)
+		}
+	}
+	return i
+}
