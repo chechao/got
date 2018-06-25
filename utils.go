@@ -19,7 +19,8 @@ func UniqueInt(is []int) []int {
 	i := []int{}
 	unq := map[int]bool{}
 	for _, v := range is {
-		if _, ok := unq[v]; !ok {
+		if _, ok := unq[v]; ok {
+		} else {
 			unq[v] = true
 			i = append(i, v)
 		}
