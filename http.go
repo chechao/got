@@ -15,6 +15,10 @@ var (
 	HttpDefault *http.Client
 )
 
+type HttpClient struct {
+	client *http.Client
+}
+
 func init() {
 	HttpDefault = &http.Client{
 		Transport: &http.Transport{
@@ -34,21 +38,27 @@ func init() {
 }
 
 func NewHttpClient() *http.Client {
-	return &http.Client{
-		Transport: &http.Transport{
-			Dial: func(netr, addr string) (net.Conn, error) {
-				conn, e := net.DialTimeout(netr, addr, time.Second*6)
-				if e != nil {
-					return nil, e
-				}
-				conn.SetDeadline(time.Now().Add(time.Second * 6))
-				return conn, nil
+	return &HttpClient{
+		client: &http.Client{
+			Transport: &http.Transport{
+				Dial: func(netr, addr string) (net.Conn, error) {
+					conn, e := net.DialTimeout(netr, addr, time.Second*6)
+					if e != nil {
+						return nil, e
+					}
+					conn.SetDeadline(time.Now().Add(time.Second * 6))
+					return conn, nil
+				},
+				MaxIdleConns:          200,
+				ResponseHeaderTimeout: time.Second * 6,
 			},
-			MaxIdleConns:          200,
-			ResponseHeaderTimeout: time.Second * 6,
+			Timeout: 6 * time.Second,
 		},
-		Timeout: 6 * time.Second,
 	}
+}
+
+func (h *HttpClient) GetJson(url string) (*simplejson.Json, error) {
+	return httpGetJson(h.client, url)
 }
 
 func HttpGetJson(url string) (*simplejson.Json, error) {
