@@ -37,7 +37,7 @@ func init() {
 	}
 }
 
-func NewHttpClient() *http.Client {
+func NewHttpClient() *HttpClient {
 	return &HttpClient{
 		client: &http.Client{
 			Transport: &http.Transport{
