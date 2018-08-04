@@ -30,6 +30,19 @@ func UniqueInt(is []int) []int {
 	return i
 }
 
+func UnqStrings(arr []string) []string {
+	uns := []string{}
+	unq := map[string]bool{}
+	for _, v := range arr {
+		if _, ok := unq[strings.TrimSpace(v)]; ok {
+		} else {
+			unq[strings.TrimSpace(v)] = true
+			uns = append(uns, strings.TrimSpace(v))
+		}
+	}
+	return uns
+}
+
 func Md5(val string) string {
 	m := md5.New()
 	m.Write([]byte(val))
